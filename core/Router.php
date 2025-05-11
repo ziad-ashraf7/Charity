@@ -42,16 +42,16 @@ class Router
     public function route($uri)
     {
         $requestMethod = $_SERVER['REQUEST_METHOD'];
-
         if ($requestMethod === 'POST' && isset($_POST['_method'])) {
             $requestMethod = strtoupper($_POST['_method']);
         }
 
         $uriSegments = explode('/', trim($uri, '/'));
         $uriSegmentsCount = count($uriSegments);
-
+        //inspect($requestMethod,$uriSegments, $this->routes);
         foreach ($this->routes as $route) {
             $routeUri = trim($route['uri'], '/');
+            //inspect($routeUri, $requestMethod);
             $routeUriSegments = explode('/', $routeUri);
             $routeUriSegmentsCount = count($routeUriSegments);
 
@@ -74,11 +74,13 @@ class Router
                     }
                 }
                 if ($matched) {
+
                     if (isset($route['middleware']) && is_array($route['middleware'])) {
-                            (new Authorize())->handle($route['middleware']);
+                        (new Authorize())->handle($route['middleware']);
                     }
                     $controllerClass = $route['controller'];
                     $controllerMethod = $route['controllerMethod'];
+                    //inspect($controllerMethod,$requestMethod);
                     $controllerInstance = new $controllerClass();
                     $controllerInstance->$controllerMethod($params);
                     return;

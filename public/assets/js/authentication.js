@@ -124,7 +124,7 @@ function updateAuthUI(user) {
     const loginLinks = document.querySelectorAll('.login-link');
     const logoutLinks = document.querySelectorAll('.logout-link');
     const profileLinks = document.querySelectorAll('.profile-link');
-    const registerLinks = document.querySelectorAll('.register-link');
+    const registerLinks = document.querySelectorAll('.registerView-link');
     const userNameElements = document.querySelectorAll('.user-name');
 
     if (user) {

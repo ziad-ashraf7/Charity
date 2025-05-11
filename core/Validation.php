@@ -34,8 +34,9 @@ class Validation
     public static function exists($table, $column, $value, $message)
     {
         $db = self::getConnection();
-        $query = 'SELECT COUNT(*) from users where email = :email';
+        $query = 'SELECT COUNT(*) as cnt from users where email = :email';
         $result = $db->query($query, ['email' => $value])->fetch();
-        var_dump($result);
+        if ($result->cnt === 0) return false;
+        return $message;
     }
 }

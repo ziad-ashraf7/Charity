@@ -14,32 +14,35 @@ class UserModel
         $this->db = Database::getInstance($config)->getConnection();
     }
 
-    public function createUser($data)
+    public function signUp($data)
     {
-        $query = 'INSERT INTO Users (name, email, phone, password) VALUES (:name, :email, :phone, :password)';
+        $query = 'INSERT INTO users (first_name,last_name, email, phone, password, created_at) VALUES (:first_name, :last_name, :email, :phone, :password, :created_at)';
+        $data['created_at'] = date('Y-m-d H:i:s');
+        unset($data['confirm_password']);
+        //inspectAndDie($data);
         $this->db->query($query, $data);
     }
 
     public function getLastUserId()
     {
-        return $this->db->query('SELECT id FROM Users ORDER BY created_at DESC LIMIT 1')->fetch()->id;
+        return $this->db->query('SELECT id FROM users ORDER BY created_at DESC LIMIT 1')->fetch()->id;
     }
 
     public function getUserByEmail($email)
     {
-        $query = 'SELECT * FROM Users WHERE email = :email';
+        $query = 'SELECT * FROM users WHERE email = :email';
         return $this->db->query($query, ['email' => $email])->fetch();
     }
 
     public function getUserById($id)
     {
-        $query = 'SELECT * FROM Users WHERE user_id = :id';
+        $query = 'SELECT * FROM users WHERE user_id = :id';
         return $this->db->query($query, ['id' => $id])->fetch();
     }
 
     public function getAllUsers()
     {
-        $query = 'SELECT * FROM Users ORDER BY created_at DESC';
+        $query = 'SELECT * FROM users ORDER BY created_at DESC';
         return $this->db->query($query)->fetchAll();
     }
 
@@ -55,7 +58,7 @@ class UserModel
 //
 //        $this->db->query('DELETE FROM Wishlist WHERE user_id = :user_id', ['user_id' => $userId]);
 //
-//        $query = 'DELETE FROM Users WHERE user_id = :user_id';
+//        $query = 'DELETE FROM users WHERE user_id = :user_id';
 //        return $this->db->query($query, ['user_id' => $userId])->rowCount() > 0;
 //    }
 }

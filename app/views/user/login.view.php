@@ -39,7 +39,8 @@
                             <span>Login to your account</span>
                             <h2>Welcome Back!</h2>
                         </div>
-                        <form class="form-contact contact_form" action="#" method="post" id="loginForm" novalidate="novalidate">
+                        <?php loadPartial('errors'); ?>
+                        <form class="form-contact contact_form" action="/user/login" method="post" id="loginForm" novalidate="novalidate">
                             <div class="row">
                                 <div class="col-12">
                                     <div class="form-group">
@@ -54,13 +55,6 @@
                             </div>
                             <div class="form-group mt-3">
                                 <div class="d-flex justify-content-between align-items-center">
-                                    <div class="form-check">
-                                        <input type="checkbox" class="form-check-input" id="rememberMe">
-                                        <label class="form-check-label ms-3 ms-md-5" style="margin-left: 20px;" for="rememberMe">Remember me</label>
-                                    </div>
-                                    <div>
-                                        <a href="#" class="forgot-password">Forgot password?</a>
-                                    </div>
                                 </div>
                             </div>
                             <div class="form-group mt-30 text-center">

@@ -604,7 +604,7 @@ const misc = {
     // Blood donation
     registerBloodDonation: function(donationData) {
         if (!auth.isLoggedIn) {
-            return Promise.reject(new Error('Please login to register for blood donation'));
+            return Promise.reject(new Error('Please login to registerView for blood donation'));
         }
         
         return new Promise((resolve) => {

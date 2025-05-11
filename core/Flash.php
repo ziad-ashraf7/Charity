@@ -11,14 +11,14 @@ class Flash
     public const SUCCESS = 'success';
     public const ERROR = 'errors';
 
-    public static function set($key, $message)
+    public static function set($key, $message): void
     {
         $messages = Session::get($key) ?? [];
         $messages[] = $message;
         Session::set($key, $messages);
     }
 
-    public static function display($key)
+    public static function display($key): void
     {
         $messages = Session::get($key);
         if ($messages) {

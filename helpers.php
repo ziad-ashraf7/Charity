@@ -1,6 +1,7 @@
 <?php
 
 use Core\Flash;
+use Core\Validation;
 
 function basePath($path): string
 {
@@ -30,16 +31,16 @@ function loadPartial($name, $data = []): void
     }
 }
 
-function inspect($variable): void
+function inspect(...$variable): void
 {
     echo "<pre>";
-    var_dump($variable);
+    var_dump(...$variable);
     echo "</pre>";
 }
 
-function inspectAndDie($variable): void
+function inspectAndDie(...$variable): void
 {
-    inspect($variable);
+    inspect(...$variable);
     die();
 }
 
@@ -69,12 +70,23 @@ function fetchFields(&$requiredFields): array
     return $data;
 }
 
-function viewErrorsIfExist(&$errors)
+function viewErrorsIfExist(&$errors, $view): void
 {
     if (!empty($errors)) {
         foreach ($errors as $error => $message) {
             Flash::set(Flash::ERROR, $message);
         }
-        redirect("/register");
+        redirect($view);
     }
+}
+
+function checkRequiredFields(&$requiredFields,&$data)
+{
+    $errors = [];
+    foreach ($requiredFields as $field) {
+        if (!isset($data[$field]) || $data[$field] == ''){ //  || !strlen($data[$field]) || !Validation::string($data[$field]) {
+            $errors[$field] = ucfirst($field) . ' is required';
+        }
+    }
+    return $errors;
 }

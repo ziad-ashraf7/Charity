@@ -10,10 +10,11 @@ use Core\Validation;
 
 class UserController
 {
-    public function __construct(
-        private userModel $userModel
-    )
+    private userModel $userModel;
+
+    public function __construct()
     {
+        $this->userModel = new UserModel();
     }
 
     public function index($params)
@@ -28,34 +29,30 @@ class UserController
         );
     }
 
-    public function login()
+    public function loginView()
     {
         loadView('user/login');
     }
 
-    public function register()
+    public function registerView()
     {
         loadView('user/register');
     }
 
-    public function store($params)
+    public function signUp($params)
     {
         $requiredFields = [
-            'name',
+            'first_name',
+            'last_name',
             'phone',
             'email',
-            'password'
+            'password',
+            'confirm_password',
         ];
 
         $data = fetchFields($requiredFields);
-        $errors = [];
 
-        foreach ($requiredFields as $field) {
-            if (!isset($data[$field]) || !strlen($data[$field]) || !Validation::string($data[$field])) {
-                $errors[$field] = ucfirst($field) . ' is required';
-            }
-        }
-
+        $errors = checkRequiredFields($requiredFields, $data);
         if (!Validation::string($data['phone'], 0, 11)) {
             $errors['phone'] = 'Phone number is invalid';
         }
@@ -75,74 +72,53 @@ class UserController
         if (empty($errors) && isset($data['password'])) {
             $data['password'] = password_hash($data['password'], PASSWORD_DEFAULT);
         }
-        viewErrorsIfExist($errors);
+        viewErrorsIfExist($errors, '/user/register');
 
-        $this->userModel->createUser($data);
+        $this->userModel->signUp($data);
         $userID = $this->userModel->getLastUserId();
-        $this->cartModel->mergeCart($userID);
         Session::set(
-            "user",
-            [
-                "id" => $this->userModel->getLastUserId(),
+            "user", [
+                "id" => $userID,
                 "name" => $data['name'],
                 "email" => $data['email'],
-                "role" => "customer"
+                "role" => "user"
             ]
         );
         Flash::set(Flash::SUCCESS, "You are now logged in");
         redirect("/");
     }
 
-    public function authenticate()
+    public function login()
     {
         $requiredFields = [
             'email',
             'password'
         ];
 
-        $data = [];
-        $errors = [];
+        $data = fetchFields($requiredFields);
+        $errors = checkRequiredFields($requiredFields, $data);
 
-        foreach ($_POST as $key => $value) {
-            if (in_array($key, $requiredFields)) {
-                $data[$key] = sanitize($value);
-            }
-        }
-
-        foreach ($requiredFields as $field) {
-            if (!isset($data[$field]) || !strlen($data[$field]) || !Validation::string($data[$field])) {
-                $errors[$field] = ucfirst($field) . ' is required';
-            }
-        }
+        //inspectAndDie($errors,$data);
 
         if (!Validation::email($data['email'])) {
             $errors['email'] = 'Email is invalid';
         }
 
-        $user = $this->userModel->getUserByEmail($data['email']);
+        viewErrorsIfExist($errors, '/user/login');
 
+        $user = $this->userModel->getUserByEmail($data['email']);
         if ($user && password_verify($data['password'], $user->password)) {
             Session::set("user", [
-                "id" => $user->user_id,
+                "id" => $user->id,
                 "name" => $user->name,
                 "email" => $user->email,
-                "role" => $user->role
+                "role" => 'user'
             ]);
-            if (!$this->cartModel->getCartId($user->user_id)) {
-                $this->cartModel->createCart($user->user_id);
-            }
-            $this->cartModel->mergeCart($user->user_id);
             Flash::set(Flash::SUCCESS, "You are now logged in");
             redirect("/");
-        } else {
-            if (!empty($errors)) {
-                foreach ($errors as $error => $message) {
-                    Flash::set(Flash::ERROR, $message);
-                }
-            } else {
-                Flash::set(Flash::ERROR, "Invalid email or password");
-            }
-            redirect("/login");
+        } else{
+            $errors['password'] = 'Wrong password';
+            viewErrorsIfExist($errors, '/user/login');
         }
     }
 
