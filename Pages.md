@@ -1,8 +1,10 @@
 ### Client
 - ~~Sign up~~
 - ~~Login~~
-- Make Donations
-- List My Donation History
+- ~~Make Donations~~
+- ~~List My Donation History~~
+- view donation details
+- change recurring donations to inactive
 - Track By donation ID
 - View Donation By ID (without auth)
 - Zakka Calculator

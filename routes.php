@@ -36,6 +36,7 @@ $router->get('/user/campaign/list', [CampaignController::class, 'listViewForUser
 
 $router->get('/user/donation/make', [UserDonationController::class, 'makeDonationView'], [\Core\System::USER]);
 $router->post('/user/donation/make', [UserDonationController::class, 'makeDonation'], [\Core\System::USER]);
+$router->get('/user/donation/list', [UserDonationController::class, 'listMyDonations'], [\Core\System::USER]);
 
 
 

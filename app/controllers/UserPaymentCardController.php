@@ -17,6 +17,17 @@ class UserPaymentCardController extends BaseController
         $this->userPaymentCardModel = new UserPaymentCardModel();
     }
 
+    public function paymentMehtodInputsValidation(&$data, &$errors)
+    {
+        if (!preg_match('/^([0-1][1-9]|1[0-2])\/\d{2}$/', $data['expiration_date']))
+            $errors['expiration_date'] = 'Invalid expiration date, must be mm/yy';
+
+        if (!preg_match('/^\d{13,19}$/', $data['card_number']))
+            $errors['card_number'] = 'Invalid card number, must be between 13,19 numbers';
+
+        if (strlen($data['cvv']) != 3)
+            $errors['cvv'] = 'Invalid cvv, must be 3 digits';
+    }
 
     public function addPaymentMethod()
     {
@@ -31,14 +42,7 @@ class UserPaymentCardController extends BaseController
         $errors = checkRequiredFields($requiredFields, $data);
         //inspectAndDie($errors, $data);
 
-        if (!preg_match('/^([0-1][1-9]|1[0-2])\/\d{2}$/', $data['expiration_date']))
-            $errors['expiration_date'] = 'Invalid expiration date, must be mm/yy';
-
-        if (!preg_match('/^\d{13,19}$/', $data['card_number']))
-            $errors['card_number'] = 'Invalid card number, must be between 13,19 numbers';
-
-        if (strlen($data['cvv']) != 3)
-            $errors['cvv'] = 'Invalid cvv, must be 3 digits';
+        $this->paymentMehtodInputsValidation($data, $errors);
 
         viewErrorsIfExist($errors, '/user/profile');
 

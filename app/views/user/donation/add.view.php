@@ -40,17 +40,15 @@
                             <h4 class="mb-0">Your Donation</h4>
                         </div>
                         <div class="card-body">
-                            <form action="/user/donation/make" method="post" id="donationForm" >
+                            <?php loadPartial(\Core\System::ERRORS); ?>
+                            <form action="/user/donation/make" method="post" id="donationForm">
                                 <!-- Campaign Selection -->
                                 <div class="form-group">
                                     <label for="campaign"><strong>Choose Campaign</strong></label>
-                                    <select class="form-control nice-select" id="campaign" name="campaign">
-                                        <option value="general">General Fund</option>
-                                        <option value="education">Education for Children</option>
-                                        <option value="water">Clean Water Initiative</option>
-                                        <option value="food">Food Bank Support</option>
-                                        <option value="healthcare">Healthcare for All</option>
-                                        <option value="emergency">Emergency Relief</option>
+                                    <select class="form-control nice-select" id="campaign" name="campaign_id">
+                                        <?php foreach ($campaigns as $campaign): ?>
+                                            <option value="<?php echo $campaign->id ?>"><?php echo $campaign->name ?></option>
+                                        <?php endforeach; ?>
                                     </select>
                                 </div>
                                 <br>
@@ -80,7 +78,7 @@
                                         <div class="input-group-prepend">
                                             <span class="input-group-text">L.E</span>
                                         </div>
-                                        <input type="number" class="form-control" id="customAmount" name="customAmount"
+                                        <input type="number" class="form-control" id="customAmount" name="amount"
                                                min="1" placeholder="Enter amount">
                                     </div>
                                 </div>
@@ -89,23 +87,28 @@
                                 <div class="form-group">
                                     <label><strong>Donation Type</strong></label>
                                     <div class="custom-control custom-radio mb-2">
-                                        <input type="radio" id="oneTime" name="donationType"
-                                               class="custom-control-input" value="one-time" checked>
+                                        <input type="radio" id="oneTime" name="donation_type"
+                                               class="custom-control-input"
+                                               value="<?php echo \App\Enum\DonationTypeEnum::ONE_TIME->value ?>"
+                                               checked>
                                         <label class="custom-control-label" for="oneTime">One-time donation</label>
                                     </div>
                                     <div class="custom-control custom-radio mb-2">
-                                        <input type="radio" id="monthly" name="donationType"
-                                               class="custom-control-input" value="monthly">
+                                        <input type="radio" id="monthly" name="donation_type"
+                                               class="custom-control-input"
+                                               value="<?php echo \App\Enum\DonationTypeEnum::MONTHLY_RECURRING->value ?>">
                                         <label class="custom-control-label" for="monthly">Monthly recurring</label>
                                     </div>
                                     <div class="custom-control custom-radio mb-2">
-                                        <input type="radio" id="quarterly" name="donationType"
-                                               class="custom-control-input" value="quarterly">
+                                        <input type="radio" id="quarterly" name="donation_type"
+                                               class="custom-control-input"
+                                               value="<?php echo \App\Enum\DonationTypeEnum::QUARTERLY_RECURRING->value ?>">
                                         <label class="custom-control-label" for="quarterly">Quarterly recurring</label>
                                     </div>
                                     <div class="custom-control custom-radio">
-                                        <input type="radio" id="annually" name="donationType"
-                                               class="custom-control-input" value="annually">
+                                        <input type="radio" id="annually" name="donation_type"
+                                               class="custom-control-input"
+                                               value="<?php echo \App\Enum\DonationTypeEnum::ANNUALLY_RECURRING->value ?>">
                                         <label class="custom-control-label" for="annually">Annual recurring</label>
                                     </div>
                                 </div>
@@ -113,7 +116,7 @@
                                 <div class="form-group">
                                     <div class="custom-control custom-checkbox">
                                         <input type="checkbox" class="custom-control-input" id="anonymousDonation"
-                                               name="anonymous">
+                                               name="is_anonymous">
                                         <label class="custom-control-label" for="anonymousDonation">Make this donation
                                             anonymous</label>
                                     </div>
@@ -126,6 +129,8 @@
                                         <div class="form-group">
                                             <label for="firstName">First Name</label>
                                             <input type="text" class="form-control" id="firstName" name="firstName"
+                                                   value="<?php echo $user->first_name ?>"
+                                                   disabled
                                                    required>
                                         </div>
                                     </div>
@@ -133,17 +138,23 @@
                                         <div class="form-group">
                                             <label for="lastName">Last Name</label>
                                             <input type="text" class="form-control" id="lastName" name="lastName"
+                                                   value="<?php echo $user->last_name ?>"
+                                                   disabled
                                                    required>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="form-group">
                                     <label for="email">Email</label>
-                                    <input type="email" class="form-control" id="email" name="email" required>
+                                    <input type="email" class="form-control" id="email" name="email"
+                                           disabled
+                                           value="<?php echo $user->email ?>" required>
                                 </div>
                                 <div class="form-group">
                                     <label for="phone">Phone</label>
-                                    <input type="tel" class="form-control" id="phone" name="phone">
+                                    <input type="tel" class="form-control" id="phone" value="<?php echo $user->phone ?>"
+                                           disabled
+                                           name="phone">
                                 </div>
 
                                 <!-- Leave a Message -->
@@ -170,7 +181,14 @@
                                                 <div class="form-group">
                                                     <label for="cardNumber">Card Number</label>
                                                     <div class="input-group">
+                                                        <input type="text" class="form-control"
+                                                               hidden
+                                                               name="payment_card_id"
+                                                               value="<?php echo $paymentCard->id ?? null ?>">
+
                                                         <input type="text" class="form-control" id="cardNumber"
+                                                               name="card_number"
+                                                               value="<?php echo $paymentCard->card_number ?? null ?>"
                                                                placeholder="1234 5678 9012 3456">
                                                         <div class="input-group-append">
                                                                 <span class="input-group-text">
@@ -188,19 +206,24 @@
                                                 <div class="form-group">
                                                     <label for="expiryDate">Expiry Date</label>
                                                     <input type="text" class="form-control" id="expiryDate"
+                                                           name="expiration_date"
+                                                           value="<?php echo $paymentCard->expiration_date ?? null ?>"
                                                            placeholder="MM/YY">
                                                 </div>
                                             </div>
                                             <div class="col-md-6">
                                                 <div class="form-group">
                                                     <label for="cvv">CVV</label>
-                                                    <input type="text" class="form-control" id="cvv" placeholder="123">
+                                                    <input type="text" class="form-control" id="cvv" name="cvv"
+                                                           placeholder="123">
                                                 </div>
                                             </div>
                                         </div>
                                         <div class="form-group">
                                             <label for="nameOnCard">Name on Card</label>
-                                            <input type="text" class="form-control" id="nameOnCard">
+                                            <input type="text" class="form-control" name="cardholder_name"
+                                                   value="<?php echo $paymentCard->cardholder_name ?? null ?>"
+                                                   id="nameOnCard">
                                         </div>
                                     </div>
                                 </div>

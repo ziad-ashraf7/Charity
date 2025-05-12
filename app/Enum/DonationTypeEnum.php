@@ -8,5 +8,4 @@ enum DonationTypeEnum : string
     case MONTHLY_RECURRING = 'Monthly Recurring';
     case QUARTERLY_RECURRING = 'Quarterly Recurring';
     case ANNUALLY_RECURRING = 'Annually Recurring';
-    case ANONYMOUS = 'Anonymous';
 }

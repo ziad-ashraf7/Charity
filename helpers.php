@@ -63,9 +63,13 @@ function formatNumber($number): string
 function fetchFields(&$requiredFields): array
 {
     $data = [];
-    foreach ($_POST as $key => $value) {
-        if (in_array($key, $requiredFields)) {
-            $data[$key] = sanitize($value);
+    foreach ($requiredFields as $key => $value) {
+        if(is_array($value)){
+            if(array_key_exists($value[0], $_POST))
+                $data[$value[0]] = sanitize($_POST[$value[0]]);
+        }
+        else if (array_key_exists($value, $_POST)) {
+            $data[$value] = sanitize($_POST[$value]);
         }
     }
     return $data;
