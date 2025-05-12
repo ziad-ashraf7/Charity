@@ -17,6 +17,7 @@ class Validation
 
     public static function email($value)
     {
+        if ($value == '') return true;
         return filter_var($value, FILTER_VALIDATE_EMAIL);
     }
 
@@ -34,9 +35,17 @@ class Validation
     public static function exists($table, $column, $value, $message)
     {
         $db = self::getConnection();
-        $query = 'SELECT COUNT(*) as cnt from users where email = :email';
-        $result = $db->query($query, ['email' => $value])->fetch();
+        $query = "SELECT COUNT(*) as cnt from $table where $column = :val";
+        $result = $db->query($query, ['val' => $value])->fetch();
         if ($result->cnt === 0) return false;
         return $message;
+    }
+
+    public static function checkOldPassword($table, $id, $inputPassword, $colName = 'password')
+    {
+        $db = self::getConnection();
+        $query = "SELECT $colName FROM $table WHERE id = :id";
+        $dbPassword = $db->query($query, ['id' => $id])->fetch()->{$colName};
+        return password_verify($inputPassword, $dbPassword);
     }
 }

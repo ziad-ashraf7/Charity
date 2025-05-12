@@ -1,0 +1,29 @@
+### Client
+- ~~Sign up~~
+- ~~Login~~
+- Make Donations
+- List My Donation History
+- Track By donation ID
+- View Donation By ID (without auth)
+- Zakka Calculator
+- some statics in home page
+- ~~List Campaigns~~
+- ~~My Profile Page~~
+  - ~~Upload image~~
+  - ~~Personal info~~
+  - ~~Security~~
+  - ~~Payment method~~
+    - ~~add new card~~
+    - ~~view cards~~
+    - ~~delete card~~
+    - ~~set as default~~
+
+### Admin
+- ~~Login~~
+- Download as CSV
+- List All Donation for
+- ~~Campaigns Pages~~
+  - ~~List~~
+  - ~~Update (Admin)~~
+  - ~~Create (Admin)~~
+  - Delete (Admin)

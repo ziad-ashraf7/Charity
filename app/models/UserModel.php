@@ -4,16 +4,8 @@ namespace App\models;
 
 use Core\Database;
 
-class UserModel
+class UserModel extends BaseModel
 {
-    protected $db;
-
-    public function __construct()
-    {
-        $config = require basePath('config/_db.php');
-        $this->db = Database::getInstance($config)->getConnection();
-    }
-
     public function signUp($data)
     {
         $query = 'INSERT INTO users (first_name,last_name, email, phone, password, created_at) VALUES (:first_name, :last_name, :email, :phone, :password, :created_at)';
@@ -36,7 +28,7 @@ class UserModel
 
     public function getUserById($id)
     {
-        $query = 'SELECT * FROM users WHERE user_id = :id';
+        $query = 'SELECT * FROM users WHERE id = :id';
         return $this->db->query($query, ['id' => $id])->fetch();
     }
 
@@ -46,12 +38,26 @@ class UserModel
         return $this->db->query($query)->fetchAll();
     }
 
-    public function getTotalUsers()
+    public function updatePersonalInfo($data)
     {
-        $query = 'SELECT COUNT(*) as count FROM Users';
-        return $this->db->query($query)->fetch()->count;
+        $query = 'UPDATE users SET first_name = :first_name, last_name = :last_name, email = :email, phone = :phone, city = :city, address = :address, country = :country , created_at=:created_at WHERE id = :id';
+        $data['created_at'] = date('Y-m-d H:i:s');
+        $this->db->query($query, $data);
     }
 
+    public function updateImage($data)
+    {
+        $query = 'UPDATE users SET img = :img, created_at=:created_at WHERE id = :id';
+        $data['created_at'] = date('Y-m-d H:i:s');
+        $this->db->query($query, $data);
+    }
+
+    public function updatePassword($data)
+    {
+        $query = 'UPDATE users SET password = :password, created_at = :created_at WHERE id = :id';
+        $data['created_at'] = date('Y-m-d H:i:s');
+        $this->db->query($query, $data);
+    }
 //    public function deleteUser($userId)
 //    {
 //        $this->db->query('DELETE FROM Cart WHERE user_id = :user_id', ['user_id' => $userId]);

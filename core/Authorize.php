@@ -1,13 +1,15 @@
 <?php
 
 namespace Core;
+
 use Core\Session;
+
 class Authorize
 {
 
     public function handle($middlewares)
     {
-        $userRole = Session::get("user")['role'] ?? null;
+        $userRole = Session::get(System::USER)['role'] ?? null;
         $isAuthorized = false;
 
         foreach ($middlewares as $middleware) {
@@ -21,7 +23,12 @@ class Authorize
             }
         }
         if (!$isAuthorized) {
-            redirect('/');
+            $path = match ($userRole) {
+                System::USER => '/user/login',
+                System::ADMIN => '/admin/login',
+                default => '/user/login',
+            };
+            redirect($path);
         }
     }
 }

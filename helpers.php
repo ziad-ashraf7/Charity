@@ -15,7 +15,7 @@ function loadView($name, $data = []): void
         extract($data);
         require $viewPath;
     } else {
-        echo "View '{$name} not found!'";
+        echo "View '{$name}' not found!'";
     }
 }
 
@@ -47,6 +47,7 @@ function inspectAndDie(...$variable): void
 function redirect($route): void
 {
     header("Location: {$route}");
+    exit();
 }
 
 function sanitize($value): string
@@ -80,13 +81,32 @@ function viewErrorsIfExist(&$errors, $view): void
     }
 }
 
-function checkRequiredFields(&$requiredFields,&$data)
+function checkRequiredFields(&$requiredFields, &$data): array
 {
     $errors = [];
     foreach ($requiredFields as $field) {
-        if (!isset($data[$field]) || $data[$field] == ''){ //  || !strlen($data[$field]) || !Validation::string($data[$field]) {
+        if(is_array($field)){
+            if ((!isset($data[$field[0]]) || $data[$field[0]] == '') && $field[1] === true) { //  || !strlen($data[$field]) || !Validation::string($data[$field]) {
+                $errors[$field[0]] = ucfirst($field[0]) . ' is required';
+            }
+        }
+        else if (!isset($data[$field]) || $data[$field] == '') { //  || !strlen($data[$field]) || !Validation::string($data[$field]) {
             $errors[$field] = ucfirst($field) . ' is required';
         }
     }
     return $errors;
+}
+
+function getImage($path, $imgName): string
+{
+    if ($imgName === null) return '/assets/uploads/noImg.jpg';
+    return "/assets/uploads/$path/$imgName";
+}
+
+function validateGETQueryParam($name, $path)
+{
+    if (!isset($_GET[$name])) {
+        Flash::set(Flash::ERROR, "$name is required in URL");
+        redirect($path);
+    }
 }

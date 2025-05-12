@@ -1,4 +1,4 @@
-<?php loadPartial('header'); ?>
+<?php loadPartial(\Core\System::HEADER); ?>
 <body>
 <!-- ? Preloader Start -->
 <div id="preloader-active">
@@ -12,7 +12,9 @@
     </div>
 </div>
 <!-- Preloader Start -->
-<?php loadPartial('navBar'); ?>
+<?php loadPartial(\Core\System::NAVBAR); ?>
+<?php loadPartial(\Core\System::SUCCESS); ?>
+<?php loadPartial(\Core\System::ERRORS); ?>
 <!-- header end -->
 <main>
     <!-- slider Area Start-->

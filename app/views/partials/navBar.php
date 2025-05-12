@@ -30,10 +30,10 @@
                                             <li><a href="index.html">Home</a></li>
                                             <li><a href="Frontend/about.html">About</a></li>
                                             <li><a href="Frontend/program.html">Latest Causes</a></li>
-                                            <li><a href="Frontend/events.html">Events</a></li>
+                                            <li><a href="/user/campaign/list">Campaigns</a></li>
                                             <li><a href="#">Donation</a>
                                                 <ul class="submenu">
-                                                    <li><a href="Frontend/make-donation.html">Make Donation</a></li>
+                                                    <li><a href="/user/donation/make">Make Donation</a></li>
                                                     <li><a href="Frontend/donation-history.html">Donation History</a>
                                                     </li>
                                                     <li><a href="Frontend/track-donation.html">Track Donation</a></li>
