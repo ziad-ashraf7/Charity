@@ -96,10 +96,10 @@
                         <div class="single-job-items mb-30">
                             <div class="job-items">
                                 <div class="company-img">
-                                    <a href="<?php echo '/user/campaign/add?campaignId=' . $campaign->id ?>"><img
+                                    <img
                                             width="50%"
                                             src="<?php echo getImage(\App\controllers\CampaignController::IMG_PATH, $campaign->img); ?>"
-                                            alt=""></a>
+                                            alt="">
                                 </div>
                                 <div class="job-tittle">
                                     <a href="#"><h4><?php echo $campaign->name ?></h4></a>
