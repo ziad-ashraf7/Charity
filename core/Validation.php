@@ -46,6 +46,7 @@ class Validation
         $db = self::getConnection();
         $query = "SELECT $colName FROM $table WHERE id = :id";
         $dbPassword = $db->query($query, ['id' => $id])->fetch()->{$colName};
+        inspectAndDie($inputPassword,$dbPassword);
         return password_verify($inputPassword, $dbPassword);
     }
 }

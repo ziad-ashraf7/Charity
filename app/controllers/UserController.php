@@ -210,7 +210,7 @@ class UserController
 
         $userId = Session::get('user')['id'];
 
-        if (Validation::checkOldPassword('users', $userId, $data['current_password']))
+        if (!Validation::checkOldPassword('users', $userId, $data['current_password']))
             $errors['current_password'] = 'Old password is wrong';
 
         if ($data['new_password'] != $data['confirm_password'])
