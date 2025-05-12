@@ -158,13 +158,8 @@
                                                         Actions
                                                     </button>
                                                     <div class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-                                                        <a class="dropdown-item" href="/user/donation/details/<?php echo $donation->donationId ?>"><i
+                                                        <a class="dropdown-item" href="/admin/donation/details/<?php echo $donation->donationId ?>"><i
                                                                     class="fas fa-receipt mr-2"></i>View Details</a>
-                                                        <?php if ($donation->donation_type != \App\Enum\DonationTypeEnum::ONE_TIME->value && $donation->is_active): ?>
-                                                            <a class="dropdown-item"
-                                                               href="/user/donation/makeInActive/<?php echo $donation->donationId ?>">Make
-                                                                Donation Inactive</a>
-                                                        <?php endif; ?>
                                                     </div>
                                                 </div>
                                             </td>

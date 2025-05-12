@@ -17,6 +17,7 @@ class CampaignModel extends BaseModel
         $query = 'SELECT * FROM campaigns WHERE admin_id = :admin_id';
         return $this->db->query($query, $data)->fetchAll();
     }
+
     public function getAll()
     {
         $query = 'SELECT * FROM campaigns';
@@ -37,5 +38,16 @@ class CampaignModel extends BaseModel
         $data['created_at'] = date('Y-m-d H:i:s');
         //inspectAndDie($data);
         $this->db->query($query, $data);
+    }
+
+    public function deleteById($id)
+    {
+        try {
+            $query = 'DELETE FROM campaigns WHERE id = :id';
+            $this->db->query($query,['id' => $id]);
+            return true;
+        } catch (\PDOException $e) {
+            return false;
+        }
     }
 }

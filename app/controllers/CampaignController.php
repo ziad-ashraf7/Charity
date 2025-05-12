@@ -62,7 +62,7 @@ class CampaignController extends BaseController
 
         viewErrorsIfExist($errors, self::BASE_ENDPOINT . '/add');
 
-        $data['admin_id'] = Session::get(System::ADMIN)['id'];
+        $data['admin_id'] = Session::get('user')['id'];
         $this->campaignModel->insert($data);
         Flash::set(Flash::SUCCESS, 'Campaign added successfully');
         redirect(self::BASE_ENDPOINT . '/list');
@@ -94,8 +94,13 @@ class CampaignController extends BaseController
         redirect(self::BASE_ENDPOINT . '/list');
     }
 
-    public function delete()
+    public function delete($params)
     {
-
+        $queryStatus = $this->campaignModel->deleteById($params['id']);
+        if ($queryStatus)
+            Flash::set(Flash::SUCCESS, 'Campaign is deleted successfully');
+        else
+            Flash::set(Flash::ERROR, 'Cannot delete campaign as it is related to some donation(s)');
+        redirect(self::BASE_ENDPOINT . '/list');
     }
 }

@@ -44,43 +44,18 @@
                             <form action="/user/donation/make" method="post" id="donationForm">
                                 <!-- Campaign Selection -->
                                 <div class="form-group">
-                                    <label for="campaign"><strong>Choose Campaign</strong></label>
-                                    <select class="form-control nice-select" id="campaign" name="campaign_id">
-                                        <?php foreach ($campaigns as $campaign): ?>
-                                            <option value="<?php echo $campaign->id ?>"
-                                                <?php echo ($campaign->id == ($_GET['campaignId'] ?? -1)) ? 'selected' : '' ?>
-                                            ><?php echo $campaign->name ?></option>
-                                        <?php endforeach; ?>
-                                    </select>
+                                    <label for="campaign"><strong>Campaign: <?php echo $donation->name?></strong></label>
                                 </div>
                                 <br>
                                 <!-- Donation Amount -->
                                 <div class="form-group">
                                     <label><strong>Donation Amount</strong></label>
-                                    <div class="donation-amount-buttons mb-3">
-                                        <div class="btn-group btn-group-toggle w-100" data-toggle="buttons">
-                                            <label class="btn btn-outline-primary">
-                                                <input type="radio" name="donationAmount" value="10"> 10 L.E
-                                            </label>
-                                            <label class="btn btn-outline-primary">
-                                                <input type="radio" name="donationAmount" value="25"> 25 L.E
-                                            </label>
-                                            <label class="btn btn-outline-primary">
-                                                <input type="radio" name="donationAmount" value="50"> 50 L.E
-                                            </label>
-                                            <label class="btn btn-outline-primary">
-                                                <input type="radio" name="donationAmount" value="100"> 100 L.E
-                                            </label>
-                                            <label class="btn btn-outline-primary active">
-                                                <input type="radio" name="donationAmount" value="other" checked> Other
-                                            </label>
-                                        </div>
-                                    </div>
                                     <div class="input-group">
                                         <div class="input-group-prepend">
                                             <span class="input-group-text">L.E</span>
                                         </div>
                                         <input type="number" class="form-control" id="customAmount" name="amount"
+                                               value="<?php echo $donation->amount ?>"
                                                min="1" placeholder="Enter amount">
                                     </div>
                                 </div>
@@ -91,36 +66,18 @@
                                     <div class="custom-control custom-radio mb-2">
                                         <input type="radio" id="oneTime" name="donation_type"
                                                class="custom-control-input"
-                                               value="<?php echo \App\Enum\DonationTypeEnum::ONE_TIME->value ?>"
+                                               value="<?php echo $donation->donation_tyoe ?>"
                                                checked>
                                         <label class="custom-control-label" for="oneTime">One-time donation</label>
-                                    </div>
-                                    <div class="custom-control custom-radio mb-2">
-                                        <input type="radio" id="monthly" name="donation_type"
-                                               class="custom-control-input"
-                                               value="<?php echo \App\Enum\DonationTypeEnum::MONTHLY_RECURRING->value ?>">
-                                        <label class="custom-control-label" for="monthly">Monthly recurring</label>
-                                    </div>
-                                    <div class="custom-control custom-radio mb-2">
-                                        <input type="radio" id="quarterly" name="donation_type"
-                                               class="custom-control-input"
-                                               value="<?php echo \App\Enum\DonationTypeEnum::QUARTERLY_RECURRING->value ?>">
-                                        <label class="custom-control-label" for="quarterly">Quarterly recurring</label>
-                                    </div>
-                                    <div class="custom-control custom-radio">
-                                        <input type="radio" id="annually" name="donation_type"
-                                               class="custom-control-input"
-                                               value="<?php echo \App\Enum\DonationTypeEnum::ANNUALLY_RECURRING->value ?>">
-                                        <label class="custom-control-label" for="annually">Annual recurring</label>
                                     </div>
                                 </div>
 
                                 <div class="form-group">
                                     <div class="custom-control custom-checkbox">
-                                        <input type="checkbox" class="custom-control-input" id="anonymousDonation"
+                                        <input type="checkbox" class="custom-control-input" id="anonymousDonation" <?php echo $donation->is_anonymous ? 'checked' : ''?>
                                                name="is_anonymous">
-                                        <label class="custom-control-label" for="anonymousDonation">Make this donation
-                                            anonymous</label>
+                                        <label class="custom-control-label" for="anonymousDonation">Is Donation Anonymous
+                                            </label>
                                     </div>
                                 </div>
 
@@ -162,8 +119,8 @@
                                 <!-- Leave a Message -->
                                 <div class="form-group">
                                     <label for="message">Leave a Message (Optional)</label>
-                                    <textarea class="form-control" id="message" name="message" rows="3"
-                                              placeholder="Your message of support"></textarea>
+                                    <textarea class="form-control" id="message" name="message" rows="3" disabled
+                                              placeholder="Your message of support"><?php echo $donation->message ?? '' ?></textarea>
                                 </div>
 
                                 <!-- Payment Method Section -->
@@ -183,14 +140,11 @@
                                                 <div class="form-group">
                                                     <label for="cardNumber">Card Number</label>
                                                     <div class="input-group">
-                                                        <input type="text" class="form-control"
-                                                               hidden
-                                                               name="payment_card_id"
-                                                               value="<?php echo $paymentCard->id ?? null ?>">
 
                                                         <input type="text" class="form-control" id="cardNumber"
                                                                name="card_number"
-                                                               value="<?php echo $paymentCard->card_number ?? null ?>"
+                                                               disabled
+                                                               value="<?php echo $donation->card_number ?? null ?>"
                                                                placeholder="1234 5678 9012 3456">
                                                         <div class="input-group-append">
                                                                 <span class="input-group-text">
@@ -209,7 +163,8 @@
                                                     <label for="expiryDate">Expiry Date</label>
                                                     <input type="text" class="form-control" id="expiryDate"
                                                            name="expiration_date"
-                                                           value="<?php echo $paymentCard->expiration_date ?? null ?>"
+                                                           disabled
+                                                           value="<?php echo $donation->expiration_date ?? null ?>"
                                                            placeholder="MM/YY">
                                                 </div>
                                             </div>
@@ -217,14 +172,16 @@
                                                 <div class="form-group">
                                                     <label for="cvv">CVV</label>
                                                     <input type="text" class="form-control" id="cvv" name="cvv"
-                                                           placeholder="123">
+                                                           disabled
+                                                           placeholder="***">
                                                 </div>
                                             </div>
                                         </div>
                                         <div class="form-group">
                                             <label for="nameOnCard">Name on Card</label>
                                             <input type="text" class="form-control" name="cardholder_name"
-                                                   value="<?php echo $paymentCard->cardholder_name ?? null ?>"
+                                                   value="<?php echo $donation->cardholder_name ?? null ?>"
+                                                   disabled
                                                    id="nameOnCard">
                                         </div>
                                     </div>
@@ -240,7 +197,7 @@
                                             <div class="card-body">
                                                 <div class="d-flex justify-content-between mb-2">
                                                     <span>Donation Amount:</span>
-                                                    <span id="summaryAmount">0.00 L.E</span>
+                                                    <span id="summaryAmount"><?php echo $donation->amount?> L.E</span>
                                                 </div>
                                                 <div class="d-flex justify-content-between mb-2">
                                                     <span>Processing Fee:</span>
@@ -249,7 +206,7 @@
                                                 <hr>
                                                 <div class="d-flex justify-content-between">
                                                     <strong>Total:</strong>
-                                                    <strong id="totalAmount">0.00 L.E</strong>
+                                                    <strong id="totalAmount"><?php echo $donation->amount?> L.E</strong>
                                                 </div>
                                             </div>
                                         </div>

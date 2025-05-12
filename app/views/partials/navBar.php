@@ -18,7 +18,7 @@
                         <!-- Logo -->
                         <div class="col-xl-2 col-lg-2">
                             <div class="logo">
-                                <a href="index.html"><img src="/assets/img/logo/logo.png" alt=""></a>
+                                <a href="/"><img src="/assets/img/logo/logo.png" alt=""></a>
                             </div>
                         </div>
                         <div class="col-xl-10 col-lg-10">
@@ -60,12 +60,22 @@
                                     </nav>
                                 </div>
                                 <!-- Header-btn -->
-                                <div class="header-right-btn d-none d-lg-block ml-20">
-                                    <a href="/user/login" class="btn header-btn">Login</a>
-                                </div>
-                                <div class="header-right-btn d-none d-lg-block ml-20">
-                                    <a href="/user/register" class="btn header-btn">Register</a>
-                                </div>
+                                <?php if (!\Core\Session::has('user')): ?>
+                                    <div class="header-right-btn d-none d-lg-block ml-20">
+                                        <a href="/user/login" class="btn header-btn">Login</a>
+                                    </div>
+                                    <div class="header-right-btn d-none d-lg-block ml-20">
+                                        <a href="/user/register" class="btn header-btn">Register</a>
+                                    </div>
+                                <?php elseif (\Core\Session::get('user')['role'] == \Core\System::ADMIN): ?>
+                                    <div class="header-right-btn d-none d-lg-block ml-20">
+                                        <a href="/admin/logout" class="btn header-btn">LogOut</a>
+                                    </div>
+                                <?php elseif (\Core\Session::get('user')['role'] == \Core\System::USER): ?>
+                                    <div class="header-right-btn d-none d-lg-block ml-20" style="background-color: red">
+                                        <a href="/user/logout" class="btn header-btn">LogOut</a>
+                                    </div>
+                                <?php endif; ?>
                             </div>
                         </div>
                         <!-- Mobile Menu -->

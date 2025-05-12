@@ -3,12 +3,13 @@
 - ~~Login~~
 - ~~Make Donations~~
 - ~~List My Donation History~~
-- view donation details
-- change recurring donations to inactive
-- Track By donation ID
-- View Donation By ID (without auth)
-- Zakka Calculator
-- some statics in home page
+- ~~view donation details~~
+- ~~change recurring donations to inactive~~
+- ~~View Donation By ID (without auth)~~
+- ~~some statics in home page~~
+  - ~~total donations~~
+  - ~~total amount of donations~~
+  - ~~total campaigns~~
 - ~~List Campaigns~~
 - ~~My Profile Page~~
   - ~~Upload image~~
@@ -23,9 +24,9 @@
 ### Admin
 - ~~Login~~
 - Download as CSV
-- List All Donation for
+- ~~List All Donations~~
 - ~~Campaigns Pages~~
   - ~~List~~
   - ~~Update (Admin)~~
   - ~~Create (Admin)~~
-  - Delete (Admin)
+  - ~~Delete (Admin)~~

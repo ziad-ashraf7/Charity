@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: May 12, 2025 at 09:26 PM
+-- Generation Time: May 13, 2025 at 12:35 AM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.2.4
 
@@ -61,7 +61,8 @@ CREATE TABLE `campaigns` (
 --
 
 INSERT INTO `campaigns` (`id`, `name`, `img`, `admin_id`, `created_at`) VALUES
-(1, 'test 1222', '68636b1bab9712e48aeace9bfbe65899936f5436875661.png', 1, '2025-05-12 12:15:55');
+(1, 'test 1222', '68636b1bab9712e48aeace9bfbe65899936f5436875661.png', 1, '2025-05-12 12:15:55'),
+(2, 'test 2', '61aedf19c675b2b7b80522fe4ef7cdcac0f39a1c220947.png', 1, '2025-05-12 19:59:59');
 
 -- --------------------------------------------------------
 
@@ -79,15 +80,17 @@ CREATE TABLE `donations` (
   `donation_type` varchar(30) NOT NULL,
   `is_anonymous` tinyint(1) NOT NULL DEFAULT 0,
   `created_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
-  `is_active` tinyint(1) NOT NULL DEFAULT 1
+  `is_active` tinyint(1) NOT NULL DEFAULT 1,
+  `donation_id` varchar(100) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `donations`
 --
 
-INSERT INTO `donations` (`id`, `user_id`, `campaign_id`, `payment_card_id`, `message`, `amount`, `donation_type`, `is_anonymous`, `created_at`, `is_active`) VALUES
-(5, 1, 1, 3, 'dd', 222, 'Quarterly Recurring', 1, '2025-05-12 19:25:54', 1);
+INSERT INTO `donations` (`id`, `user_id`, `campaign_id`, `payment_card_id`, `message`, `amount`, `donation_type`, `is_anonymous`, `created_at`, `is_active`, `donation_id`) VALUES
+(5, 1, 1, 3, 'dd', 222, 'Quarterly Recurring', 1, '2025-05-12 21:58:19', 0, '1'),
+(6, 1, 2, 3, 'asdas', 2222, 'One Time', 1, '2025-05-12 20:06:48', 1, '#168484');
 
 -- --------------------------------------------------------
 
@@ -196,13 +199,13 @@ ALTER TABLE `admins`
 -- AUTO_INCREMENT for table `campaigns`
 --
 ALTER TABLE `campaigns`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `donations`
 --
 ALTER TABLE `donations`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `users`

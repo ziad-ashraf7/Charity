@@ -117,4 +117,23 @@ class UserDonationController extends BaseController
             'supportedCampaigns' => $this->donationModel->getSupportedCampaigns($this->userId)
         ]);
     }
+
+    public function makeDonationInActive($params)
+    {
+        $this->donationModel->markInActive($params['id']);
+        Flash::set(Flash::SUCCESS, 'Donation is marked inactive successfully');
+        redirect(self::BASE_ENDPOINT . '/list');
+    }
+
+    public function viewDetails($params)
+    {
+        $campaigns = $this->campaignModel->getAll();
+        $user = $this->userModel->getUserById($this->userId);
+        $donation = $this->donationModel->getByIdWithJoin($params['id']);
+        loadView(self::BASE_ENDPOINT . '/details', [
+            'donation' => $donation,
+            'campaigns' => $campaigns,
+            'user' => $user,
+        ]);
+    }
 }

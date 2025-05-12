@@ -31,64 +31,14 @@
     </div>
     <!-- Hero End -->
     <!--? Count Down Start -->
-    <div class="count-down-area pt-25 section-bg" data-background="assets/img/gallery/section_bg02.png">
-        <div class="container">
-            <div class="row justify-content-center">
-                <div class="col-lg-12 col-md-12">
-                    <div class="count-down-wrapper">
-                        <div class="row justify-content-between">
-                            <div class="col-lg-3 col-md-6 col-sm-6">
-                                <!-- Counter Up -->
-                                <div class="single-counter text-center">
-                                    <span class="counter color-green">6,200</span>
-                                    <span class="plus">+</span>
-                                    <p class="color-green">Donation</p>
-                                </div>
-                            </div>
-                            <div class="col-lg-3 col-md-6 col-sm-6">
-                                <!-- Counter Up -->
-                                <div class="single-counter text-center">
-                                    <span class="counter color-green">80</span>
-                                    <span class="plus">+</span>
-                                    <p class="color-green">Fund Raised</p>
-                                </div>
-                            </div>
-                            <div class="col-lg-3 col-md-6 col-sm-6">
-                                <!-- Counter Up -->
-                                <div class="single-counter text-center">
-                                    <span class="counter color-green">256</span>
-                                    <span class="plus">+</span>
-                                    <p class="color-green">Donation</p>
-                                </div>
-                            </div>
-                            <div class="col-lg-3 col-md-6 col-sm-6">
-                                <!-- Counter Up -->
-                                <div class="single-counter text-center">
-                                    <span class="counter color-green">256</span>
-                                    <span class="plus">+</span>
-                                    <p class="color-green">Donation</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+
     <!-- Count Down End -->
     <!-- Featured_job_start -->
+    <?php loadPartial(\Core\System::ERRORS); ?>
     <section class="featured-job-area section-padding30 section-bg2"
              data-background="assets/img/gallery/section_bg03.png">
         <div class="container">
-            <div class="row justify-content-center">
-                <div class="col-xl-7 col-lg-9 col-md-10 col-sm-12">
-                    <!-- Section Tittle -->
-                    <div class="section-tittle text-center mb-80">
-                        <span>What we are boing</span>
-                        <h2>We arrange many social events for charity donations</h2>
-                    </div>
-                </div>
-            </div>
+
             <div class="row justify-content-center">
                 <?php foreach ($campaigns as $campaign) : ?>
                     <div class="col-lg-9 col-md-12">
@@ -106,7 +56,9 @@
                                     <a href="<?php echo \App\controllers\CampaignController::BASE_ENDPOINT . '/update/'. $campaign->id ?>">
                                         <h4>Update</h4>
                                     </a>
-
+                                    <a href="<?php echo \App\controllers\CampaignController::BASE_ENDPOINT . '/delete/'. $campaign->id ?>">
+                                        <h4>Delete</h4>
+                                    </a>
                                     <!--                                    <ul>-->
                                     <!--                                        <li><i class="far fa-clock"></i>8:30 - 9:30am</li>-->
                                     <!--                                        <li><i class="fas fa-sort-amount-down"></i>18.01.2021</li>-->

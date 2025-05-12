@@ -2,6 +2,7 @@
 
 
 use App\controllers\AdminController;
+use App\controllers\AdminDonationController;
 use App\controllers\CampaignController;
 use App\controllers\HomeController;
 use App\controllers\UserController;
@@ -37,6 +38,8 @@ $router->get('/user/campaign/list', [CampaignController::class, 'listViewForUser
 $router->get('/user/donation/make', [UserDonationController::class, 'makeDonationView'], [\Core\System::USER]);
 $router->post('/user/donation/make', [UserDonationController::class, 'makeDonation'], [\Core\System::USER]);
 $router->get('/user/donation/list', [UserDonationController::class, 'listMyDonations'], [\Core\System::USER]);
+$router->get('/user/donation/makeInActive/{id}', [UserDonationController::class, 'makeDonationInActive'], [\Core\System::USER]);
+$router->get('/user/donation/details/{id}', [UserDonationController::class, 'viewDetails'], [\Core\System::USER]);
 
 
 
@@ -53,3 +56,10 @@ $router->get('/admin/campaign/list', [CampaignController::class, 'listView'], [\
 $router->post('/admin/campaign/add', [CampaignController::class, 'add'], [\Core\System::ADMIN]);
 $router->get('/admin/campaign/update/{id}', [CampaignController::class, 'updateView'], [\Core\System::ADMIN]);
 $router->post('/admin/campaign/update/{id}', [CampaignController::class, 'update'], [\Core\System::ADMIN]);
+$router->get('/admin/campaign/delete/{id}', [CampaignController::class, 'delete'], [\Core\System::ADMIN]);
+
+
+$router->get('/admin/donation/list', [AdminDonationController::class, 'listView'], [\Core\System::ADMIN]);
+$router->get('/admin/donation/details/{id}', [AdminDonationController::class, 'viewDetails'], [\Core\System::ADMIN]);
+
+$router->get('trackDonation', [HomeController::class, 'trackDonationView']);

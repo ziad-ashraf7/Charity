@@ -558,36 +558,30 @@
                         <div class="row justify-content-between">
                             <div class="col-lg-3 col-md-6 col-sm-6">
                                 <!-- Counter Up -->
+
+
                                 <div class="single-counter text-center">
-                                    <span class="counter color-green">6,200</span>
+                                    <span class="counter color-green"><?php echo $totalDonations ?></span>
                                     <span class="plus">+</span>
-                                    <p class="color-green">Donation</p>
+                                    <p class="color-green">Total Donations</p>
                                 </div>
                             </div>
                             <div class="col-lg-3 col-md-6 col-sm-6">
                                 <!-- Counter Up -->
                                 <div class="single-counter text-center">
-                                    <span class="counter color-green">80</span>
+                                    <span class="counter color-green"><?php echo $totalDonationNumber?></span>
                                     <span class="plus">+</span>
-                                    <p class="color-green">Fund Raised</p>
+                                    <p class="color-green">Donation Raised</p>
                                 </div>
                             </div>
                             <div class="col-lg-3 col-md-6 col-sm-6">
                                 <!-- Counter Up -->
                                 <div class="single-counter text-center">
-                                    <span class="counter color-green">256</span>
+                                    <span class="counter color-green"><?php echo $totalCampaigns ?></span>
                                     <span class="plus">+</span>
-                                    <p class="color-green">Donation</p>
+                                    <p class="color-green">Total Campaigns</p>
                                 </div>
-                            </div>
-                            <div class="col-lg-3 col-md-6 col-sm-6">
-                                <!-- Counter Up -->
-                                <div class="single-counter text-center">
-                                    <span class="counter color-green">256</span>
-                                    <span class="plus">+</span>
-                                    <p class="color-green">Donation</p>
-                                </div>
-                            </div>
+                            </div
                         </div>
                     </div>
                 </div>
