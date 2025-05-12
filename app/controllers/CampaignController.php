@@ -88,6 +88,7 @@ class CampaignController extends BaseController
         viewErrorsIfExist($errors, self::BASE_ENDPOINT . '/add');
 
         $data['admin_id'] = Session::get(System::USER)['id'];
+        $data['id'] = $params['id'];
         $this->campaignModel->update($data);
 
         Flash::set(Flash::SUCCESS, 'Campaign is updated successfully');

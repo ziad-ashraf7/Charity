@@ -34,7 +34,7 @@ class CampaignModel extends BaseModel
 
     public function update($data)
     {
-        $query = 'update campaigns SET name = :name ,img = :img, admin_id= :admin_id , created_at = :created_at';
+        $query = 'update campaigns SET name = :name ,img = :img, admin_id= :admin_id , created_at = :created_at WHERE id = :id';
         $data['created_at'] = date('Y-m-d H:i:s');
         //inspectAndDie($data);
         $this->db->query($query, $data);
