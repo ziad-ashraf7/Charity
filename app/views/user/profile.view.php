@@ -189,7 +189,11 @@
                                 <div class="card mb-4">
                                     <div class="card-body">
                                         <h5 class="card-title">Saved Payment Methods</h5>
-                                        <?php foreach ($paymentMethods as $paymentMethod): ?>
+                                        <?php $defaultExists = false;
+                                        foreach ($paymentMethods as $paymentMethod):
+
+                                            if ($paymentMethod->is_default) $defaultExists = true;
+                                            ?>
                                             <div class="row align-items-center mb-3 p-3 border rounded">
                                                 <div class="col-auto">
                                                     <i class="fab fa-cc-mastercard fa-2x text-warning"></i>
@@ -206,7 +210,8 @@
                                                 <?php else: ?>
                                                     <div class="col-auto">
                                                         <button class="btn btn-sm btn-outline-primary">
-                                                            <a href="/user/profile/paymentMethod/setAsDefault/<?php echo $paymentMethod->id ?>">Set Default</a>
+                                                            <a href="/user/profile/paymentMethod/setAsDefault/<?php echo $paymentMethod->id ?>">Set
+                                                                Default</a>
                                                         </button>
                                                     </div>
                                                 <?php endif; ?>
@@ -262,13 +267,15 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="form-check mb-3">
-                                                <input class="form-check-input" name="is_default" type="checkbox"
-                                                       id="setAsDefault">
-                                                <label class="form-check-label" for="setAsDefault">
-                                                    Set as default payment method
-                                                </label>
-                                            </div>
+                                            <?php if (!$defaultExists) : ?>
+                                                <div class="form-check mb-3">
+                                                    <input class="form-check-input" name="is_default" type="checkbox"
+                                                           id="setAsDefault">
+                                                    <label class="form-check-label" for="setAsDefault">
+                                                        Set as default payment method
+                                                    </label>
+                                                </div>
+                                            <?php endif; ?>
                                             <button type="submit" class="button button-contactForm boxed-btn">Add
                                                 Payment Method
                                             </button>
